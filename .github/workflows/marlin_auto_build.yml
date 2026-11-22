@@ -5,12 +5,18 @@ on:
   push:
     paths:
       - 'builds/**'
-  # trigger every night at 03:30
+  # trigger every night at 03:30 UTC (only builds when a new Marlin release appears)
   schedule:
     - cron:  '30 3 * * *'
+  # adds a "Run workflow" button on the Actions tab
+  workflow_dispatch:
+
+# lets the action create releases and commit the generated configs
+permissions:
+  contents: write
 
 jobs:
   create_builds:
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest
     steps:
-    - uses: zisismaras/marlin_auto_build@v1
+    - uses: zisismaras/marlin_auto_build@master
